@@ -14,7 +14,7 @@ export enum MemberStatus {
     BLOCK = 'BLOCK',
     DELETE = 'DELETE',
 }
-registerEnumType(MemberType, {
+registerEnumType(MemberStatus, {
     name: 'MemberStatus',
 });
 export enum MemberAuthType {
