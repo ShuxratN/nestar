@@ -8,6 +8,7 @@ import { AppResolver } from './app.resolver';
 import { ComponentsModule } from './components/components.module';
 import { DatabaseModule } from './database/database.module';
 import { TestModule } from './test/test.module';
+import { T } from './libs/types/common';
 
 @Module({
   imports: [
@@ -17,6 +18,15 @@ import { TestModule } from './test/test.module';
       playground: true,
       uploads: false,
       autoSchemaFile: true,
+      formatError: (error: T) => {
+        const graphQLFormattedError = {
+          code: 'ERROR CODE',
+          message: 
+            error?.extentions?.extentions?.response?.message || error?.extentions?.response?.message || error?.message,
+        };
+        console.log('GRAPHQL GLOBAL ERR:', graphQLFormattedError);
+        return graphQLFormattedError;
+      },
     }), 
     ComponentsModule,
     DatabaseModule,
