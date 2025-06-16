@@ -28,8 +28,8 @@ export class LoggingInterceptor implements NestInterceptor {
         tap(() => {
             const responseTime = Date.now() - recordTime;
             this.logger.log(`${this.stringify(context)} - ${responseTime}ms \n\n`,  'RESPONSE');
-  }),
-);
+        }),
+      );
     }
   }
 
