@@ -18,9 +18,10 @@ export class MemberService {
     try {
      const result = await this.memberModel.create(input);
      //TODO AUTHENTICATION via TOKEN
+     result.accessToken = await this.authService.createToken(result);
         return result ;
     } catch (err) {
-         console.log('Error, service:model :', err.message );
+         console.log('Error, service:model :', err);
          throw new BadGatewayException(Message.USED_MEMBER_NICK_OR_PHONE);
     }
 
@@ -38,14 +39,13 @@ export class MemberService {
     } else if (response.memberStatus === MemberStatus.BLOCK) {
    throw new InternalServerErrorException(Message.BLOCKED_USER);
     }
-    //TODO: compare 
+ 
     const isMatch = await this.authService.comparePasswords(input.memberPassword, response.memberPassword);
     if (!isMatch) throw new InternalServerErrorException(Message.WRONG_PASSWORD);
+    response.accessToken = await this.authService.createToken(response);
     return response;
     }
     
-
-
     public async updateMember(): Promise<string> {
         return "updateMember executed!";
     }
