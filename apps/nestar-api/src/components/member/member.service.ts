@@ -17,7 +17,7 @@ export class MemberService {
     input.memberPassword = await this.authService.hashPassword(input.memberPassword);
     try {
      const result = await this.memberModel.create(input);
-     //TODO AUTHENTICATION via TOKEN
+
      result.accessToken = await this.authService.createToken(result);
         return result ;
     } catch (err) {

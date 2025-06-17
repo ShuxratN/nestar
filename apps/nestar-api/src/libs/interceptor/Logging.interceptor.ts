@@ -8,10 +8,10 @@ import { tap } from 'rxjs/operators';
 export class LoggingInterceptor implements NestInterceptor {
     private readonly logger: Logger = new Logger();
 
-  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+ public intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const recordTime = Date.now();
     const requestType = context.getType<GqlContextType>();
-    this.logger.log(`Type ${requestType}`, 'REQUEST');
+    
 
     if (requestType === 'http') {
         /*develop if needed*/
@@ -22,12 +22,11 @@ export class LoggingInterceptor implements NestInterceptor {
         /** (2) Errors handling via Graphql */
         
         /** (3) No errors, giving Responce below */
-    return next
-      .handle()
-      .pipe(
+    return next.handle().pipe(
         tap(() => {
             const responseTime = Date.now() - recordTime;
-            this.logger.log(`${this.stringify(context)} - ${responseTime}ms \n\n`,  'RESPONSE');
+            this.logger.log(`GraphQL response time: ${responseTime}ms`, 'RESPONSE');
+            //this.logger.log(`${this.stringify(context)} - ${responseTime}ms \n\n`,  'RESPONSE');
         }),
       );
     }

@@ -8,7 +8,7 @@ import { HttpModule } from '@nestjs/axios';
     HttpModule,
     JwtModule.register({
       secret: `${process.env.SECRET_TOKEN}`,
-      signOptions: { expiresIn: '30d '},
+      signOptions: { expiresIn: '30d'},
     }),
   ],
   providers: [AuthService],
