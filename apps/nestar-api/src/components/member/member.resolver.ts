@@ -55,11 +55,12 @@ export class MemberResolver {
         return `Hi ${authMember.memberNick}, you are ${authMember.memberType} (memberId: ${authMember._id})`;
     }
 
+    @UseGuards(AuthGuard)
     @Query(() => Member)
-    public async getMember(@Args('memberId') input: string): Promise<Member> {
+    public async getMember(@Args('memberId') input: string, @AuthMember('_id')memberId: ObjectId): Promise<Member> {
         console.log("Query: getMember");
         const targetId = shapeIntoMongoObjectId(input);
-        return this.memberService.getMember(targetId);
+        return this.memberService.getMember(memberId,targetId);
     }
 
     // Admin //
