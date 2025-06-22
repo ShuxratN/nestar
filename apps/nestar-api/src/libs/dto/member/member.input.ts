@@ -85,7 +85,7 @@ class MISearch {
     @Field(() => MemberType, { nullable: true})
     memberType?: MemberType;
 
-    @IsNotEmpty()
+    @IsOptional()
     @Field(() => String, { nullable: true })
     text?: string;
 }

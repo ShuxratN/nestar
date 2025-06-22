@@ -6,4 +6,4 @@ export const availableMemberSorts = ['createdAt', 'updatedAt', 'memberLikes', 'm
 export const shapeIntoMongoObjectId = (target: any ) => {
     return typeof target === 'string' ? new ObjectId(target) : target;
 
-};
+}; 
