@@ -73,7 +73,7 @@ const PropertySchema = new Schema(
 
 		propertyImages: {
 			type: [String],
-			required: true,
+			//required: true,
 		},
 
 		propertyDesc: {
