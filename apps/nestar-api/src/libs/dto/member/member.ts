@@ -3,10 +3,6 @@ import { ObjectId } from "mongoose";
 import { MemberAuthType, MemberStatus, MemberType } from "../../enums/member.enum";
 
 
-
-
-
-
 @ObjectType()
 export class Member {
     @Field(() => String )
