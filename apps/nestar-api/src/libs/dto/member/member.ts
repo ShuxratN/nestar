@@ -4,6 +4,9 @@ import { MemberAuthType, MemberStatus, MemberType } from "../../enums/member.enu
 
 
 
+
+
+
 @ObjectType()
 export class Member {
     @Field(() => String )
