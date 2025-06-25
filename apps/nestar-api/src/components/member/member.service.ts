@@ -163,6 +163,4 @@ export class MemberService {
         )
         .exec();
     }
-
-    
 }

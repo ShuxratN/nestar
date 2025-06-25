@@ -94,7 +94,7 @@ export class MemberResolver {
 
     /** UPLOADER  */
  
-    @UseGuards(AuthGuard)
+@UseGuards(AuthGuard)
 @Mutation((returns) => String)
 public async imageUploader(
 	@Args({ name: 'file', type: () => GraphQLUpload })
