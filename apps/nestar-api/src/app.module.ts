@@ -31,7 +31,7 @@ import { T } from './libs/types/common';
     }), 
     ComponentsModule,
     DatabaseModule,
-    TestModule,
+
    ],
   controllers: [AppController],
   providers: [AppService, AppResolver],
