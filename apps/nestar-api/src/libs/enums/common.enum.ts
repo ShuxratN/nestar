@@ -24,6 +24,7 @@ SELF_SUBSCRIPTION_DENIED = 'Self subscription is denied!',
 export enum Direction {
     ASC = 1,
     DESC = -1,
+    DECS,
 }
 
 registerEnumType(Direction, {
