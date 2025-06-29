@@ -61,6 +61,9 @@ export class BoardArticleService {
                 }
 
                 //meliked
+                
+                 const likeInput = { memberId: memberId, likeRefId: articleId, likeGroup: LikeGroup.ARTICLE};
+                 targetBoardArticle.meLiked = await this.likeService.checkLikeExistance(likeInput);
             }
             targetBoardArticle.memberData = await this.memberService.getMember(null, targetBoardArticle.memberId);
             return targetBoardArticle;
@@ -110,6 +113,8 @@ export class BoardArticleService {
                             { $skip: (input.page - 1) * input.limit },
                             { $limit: input.limit },
                             //meLiked
+
+                            
                             lookupMember,
                             { $unwind: '$memberData'},
                         ],
@@ -121,6 +126,8 @@ export class BoardArticleService {
             if(!result.length) throw new InternalServerErrorException(Message.NO_DATA_FOUND);
 
             return result[0];
+
+            
 
         }
 
