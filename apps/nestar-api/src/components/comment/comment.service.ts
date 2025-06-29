@@ -55,7 +55,6 @@ export class CommentService {
                 });
                 break;
         }
-
         if (!result) throw new InternalServerErrorException(Message.CREATE_FAILED);
         return result;
     }

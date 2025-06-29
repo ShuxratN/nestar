@@ -20,6 +20,8 @@ export class CommentInput {
 	@Field(() => String)
 	commentRefId: ObjectId;
 
+	
+
 	memberId?: ObjectId;
 }
 

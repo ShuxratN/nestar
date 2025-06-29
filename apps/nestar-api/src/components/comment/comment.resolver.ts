@@ -1,4 +1,4 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { CommentService } from './comment.service';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../auth/guards/auth.guard';
@@ -21,7 +21,7 @@ export class CommentResolver {
     @Mutation((returns) => Comment)
     public async createComment(
         @Args('input') input: CommentInput,
-        @AuthMember('id') memberId: ObjectId,
+        @AuthMember('_id') memberId: ObjectId,
     ) : Promise<Comment> {
         console.log('Mutation: createComment');
         return await this.commentService.createComment(memberId, input);
@@ -31,7 +31,7 @@ export class CommentResolver {
     @Mutation((returns) => Comment)
     public async updateComment(
         @Args('input') input: CommentUpdate,
-        @AuthMember('id') memberId: ObjectId,
+        @AuthMember('_id') memberId: ObjectId,
     ) : Promise<Comment> {
         console.log('Mutation: updateComment');
         input._id = shapeIntoMongoObjectId(input._id);
@@ -42,7 +42,7 @@ export class CommentResolver {
     @Mutation((returns) => Comments)
     public async getComments(
         @Args('input') input: CommentsInquiry,
-        @AuthMember('id') memberId: ObjectId,
+        @AuthMember('_id') memberId: ObjectId,
     ) : Promise<Comments> {
         console.log('Query: getComments');
         input.search.commentRefId = shapeIntoMongoObjectId(input.search.commentRefId);
