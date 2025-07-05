@@ -6,7 +6,7 @@ import { Model, ObjectId } from 'mongoose';
 import { Direction, Message } from '../../libs/enums/common.enum';
 import { T } from '../../libs/types/common';
 import { FollowInquiry } from '../../libs/dto/follow/follow.input';
-import { lookupAuthMemberLiked, lookUpFollowerData } from '../../libs/config';
+import { lookupAuthMemberFollowed, lookupAuthMemberLiked, lookUpFollowerData } from '../../libs/config';
 
 @Injectable()
 export class FollowService {
@@ -75,7 +75,7 @@ export class FollowService {
                    { $skip: (page - 1) * limit },
                    { $limit: limit },
                   lookupAuthMemberLiked(memberId, "$follwingId"),
-                    // meFollowed
+                  lookupAuthMemberFollowed({ followerId: memberId, followingId: '$followingId '}),
                     lookUpFollowerData,
                     { $unwind: '$followingData' },
                   ],
@@ -107,9 +107,9 @@ export class FollowService {
                     { $skip: (page - 1) * limit },
                     { $limit: limit },
                     lookupAuthMemberLiked(memberId, "$follwerId"),
-                    // meFollowed
+                    lookupAuthMemberFollowed({ followerId: memberId, followingId: '$followerId '}),
                     lookUpFollowerData,
-                    { $unwind: '$followerData' }
+                    { $unwind: '$followerData' },
                 ],
                 metaCounter: [{ $count: 'total' }],
               },
