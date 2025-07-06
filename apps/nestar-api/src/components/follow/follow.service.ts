@@ -6,7 +6,7 @@ import { Model, ObjectId } from 'mongoose';
 import { Direction, Message } from '../../libs/enums/common.enum';
 import { T } from '../../libs/types/common';
 import { FollowInquiry } from '../../libs/dto/follow/follow.input';
-import { lookupAuthMemberFollowed, lookupAuthMemberLiked, lookUpFollowerData } from '../../libs/config';
+import { lookupAuthMemberFollowed, lookupAuthMemberLiked, lookUpFollowerData, lookUpFollowingData } from '../../libs/config';
 
 @Injectable()
 export class FollowService {
@@ -61,8 +61,8 @@ export class FollowService {
 
     public async getMemberFollowings (memberId: ObjectId, input: FollowInquiry): Promise<Followings> {
         const { page, limit, search } = input;
-        if (!search ?. followerId) throw new InternalServerErrorException(Message.BAD_REQUEST);
-        const match: T = { followerId: search ?. followerId };
+        if (!search?.followerId) throw new InternalServerErrorException(Message.BAD_REQUEST);
+        const match: T = { followerId: search?.followerId };
         console.log("match:", match);
 
         const result = await this.followModel
@@ -75,8 +75,11 @@ export class FollowService {
                    { $skip: (page - 1) * limit },
                    { $limit: limit },
                   lookupAuthMemberLiked(memberId, "$follwingId"),
-                  lookupAuthMemberFollowed({ followerId: memberId, followingId: '$followingId '}),
-                    lookUpFollowerData,
+                  lookupAuthMemberFollowed({ 
+                    followerId: memberId, 
+                    followingId: '$followingId' 
+                  }),
+                    lookUpFollowingData,
                     { $unwind: '$followingData' },
                   ],
                 metaCounter: [{ $count: 'total' }],
@@ -85,19 +88,19 @@ export class FollowService {
         ])
 
         .exec();
-        if (!result. length) throw new InternalServerErrorException(Message.NO_DATA_FOUND);
+        if (!result.length) throw new InternalServerErrorException(Message.NO_DATA_FOUND);
 
         return result [0];
     }
 
     public async getMemberFollowers(memberId: ObjectId, input: FollowInquiry): Promise<Followers> {
          const { page, limit, search } = input;
-        if (!search ?. followingId) throw new InternalServerErrorException(Message.BAD_REQUEST);
+        if (!search?.followingId) throw new InternalServerErrorException(Message.BAD_REQUEST);
 
-        const match: T = { followingId: search ?. followingId };
+        const match: T = { followingId: search?.followingId };
         console. log ('match:', match);
 
-        const result = await this. followModel
+        const result = await this.followModel
         .aggregate( [
             { $match: match },
             { $sort: { createdAt: Direction.DESC } },
@@ -107,7 +110,10 @@ export class FollowService {
                     { $skip: (page - 1) * limit },
                     { $limit: limit },
                     lookupAuthMemberLiked(memberId, "$follwerId"),
-                    lookupAuthMemberFollowed({ followerId: memberId, followingId: '$followerId '}),
+                    lookupAuthMemberFollowed({ 
+                      followerId: memberId, 
+                      followingId: '$followerId' 
+                    }),
                     lookUpFollowerData,
                     { $unwind: '$followerData' },
                 ],
