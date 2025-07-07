@@ -5,7 +5,6 @@ import { ObjectId } from "mongoose";
 import { availableOptions, availablePropertySorts } from "../../config";
 import { Direction } from "../../enums/common.enum";
 
-
 @InputType()
 export class PropertyInput {
     @IsNotEmpty()
@@ -140,7 +139,6 @@ export class PropertyInput {
     @IsOptional()
     @Field(() => String, { nullable: true })
     text?: string;
-
     }
 
     @InputType()
@@ -170,7 +168,7 @@ export class PropertyInput {
 
     }
 
-   @InputType()
+    @InputType()
     class APISearch {
     @IsOptional()
     @Field(() => PropertyStatus, { nullable: true })
@@ -203,39 +201,53 @@ export class PropertyInput {
     search: APISearch;
 }
 
-@InputType()
-class ALPISearch {
-@IsOptional()
-@Field(() => PropertyStatus, { nullable: true })
-propertyStatus ?: PropertyStatus;
+    @InputType()
+    class ALPISearch {
+    @IsOptional()
+    @Field(() => PropertyStatus, { nullable: true })
+    propertyStatus ?: PropertyStatus;
 
-@IsOptional()
-@Field(() => [PropertyLocation], { nullable: true })
-propertyLocationList ?: PropertyLocation[];
+    @IsOptional()
+    @Field(() => [PropertyLocation], { nullable: true })
+    propertyLocationList ?: PropertyLocation[];
+}
+
+    @InputType()
+    export class AllPropertiesInquiry {
+    @IsNotEmpty()
+    @Min(1)
+    @Field(() => Int)
+    page: number;
+
+    @IsNotEmpty()
+    @Min(1)
+    @Field(() => Int)
+    limit: number;
+
+    @IsOptional()
+    @IsIn(availablePropertySorts)
+    @Field(() => String, { nullable: true })
+    sort?: string;
+
+    @IsOptional()
+    @Field(() => Direction, { nullable: true })
+    direction?: Direction;
+
+    @IsNotEmpty()
+    @Field(() => ALPISearch)
+    search: ALPISearch;
 }
 
 @InputType()
-export class AllPropertiesInquiry {
-@IsNotEmpty()
-@Min(1)
-@Field(() => Int)
-page: number;
+    export class OrdinaryInquiry {
+    @IsNotEmpty()
+    @Min(1)
+    @Field(() => Int)
+    page: number;
 
-@IsNotEmpty()
-@Min(1)
-@Field(() => Int)
-limit: number;
+    @IsNotEmpty()
+    @Min(1)
+    @Field(() => Int)
+    limit: number;
 
-@IsOptional()
-@IsIn(availablePropertySorts)
-@Field(() => String, { nullable: true })
-sort?: string;
-
-@IsOptional()
-@Field(() => Direction, { nullable: true })
-direction?: Direction;
-
-@IsNotEmpty()
-@Field(() => ALPISearch)
-search: ALPISearch;
 }
