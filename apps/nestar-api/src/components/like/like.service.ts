@@ -65,6 +65,7 @@ public async toggleLike(input: LikeInput): Promise<number> {
                lookUpFavorite,
                { $unwind: '$favoriteProperty.memberData' }
             ],
+            metaCounter: [{ $count: 'total' }],
          },
       },
    ])

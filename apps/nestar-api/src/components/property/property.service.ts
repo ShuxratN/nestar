@@ -53,7 +53,7 @@ export class PropertyService {
 
         if (memberId) {
            const viewInput = { memberId: memberId, viewRefId: propertyId, viewGroup: ViewGroup.PROPERTY };
-           const newView = await this. viewService. recordView(viewInput);
+           const newView = await this.viewService.recordView(viewInput);
         if (newView) {
            await this. propertyStatsEditor({ _id: propertyId, targetKey: 'propertyViews', modifier: 1 });
            targetProperty.propertyViews++;
@@ -161,6 +161,10 @@ export class PropertyService {
 
   public async getFavorites(memberId: ObjectId, input: OrdinaryInquiry): Promise<Properties> {
     return await this.likeService.getFavoriteProperties(memberId, input);
+  }
+
+  public async getVisited(memberId: ObjectId, input: OrdinaryInquiry): Promise<Properties> {
+    return await this.viewService.getVisitedProperties(memberId, input);
   }
 
   public async getAgentProperties(memberId: ObjectId, input: AgentPropertiesInquiry): Promise<Properties> {
